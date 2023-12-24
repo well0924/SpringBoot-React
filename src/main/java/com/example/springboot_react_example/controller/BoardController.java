@@ -1,10 +1,12 @@
 package com.example.springboot_react_example.controller;
 
+import com.example.springboot_react_example.domain.Const.SearchType;
 import com.example.springboot_react_example.domain.Member;
 import com.example.springboot_react_example.domain.dto.BoardRequest;
 import com.example.springboot_react_example.domain.dto.BoardResponse;
 import com.example.springboot_react_example.service.BoardService;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +31,13 @@ public class BoardController {
     public ResponseEntity<?> listAll(@PageableDefault(size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable){
         Page<BoardResponse> list = boardService.listALL(pageable);
         return new ResponseEntity<>(list,HttpStatus.OK);
+    }
+
+    //글 검색
+    @GetMapping("/search")
+    public ResponseEntity<?>listSearch(@PageableDefault(size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable, SearchType searchType,@RequestParam(value = "value") String searchVal){
+        Page<BoardResponse>list = boardService.boardSearchList(pageable,searchType,searchVal);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     //글 단일 조회

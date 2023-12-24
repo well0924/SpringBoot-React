@@ -1,6 +1,7 @@
 package com.example.springboot_react_example.service;
 
 import com.example.springboot_react_example.domain.BoardEntity;
+import com.example.springboot_react_example.domain.Const.SearchType;
 import com.example.springboot_react_example.domain.Member;
 import com.example.springboot_react_example.domain.dto.BoardRequest;
 import com.example.springboot_react_example.domain.dto.BoardResponse;
@@ -27,12 +28,12 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public Page<BoardResponse> listALL(Pageable pageable){
-        return boardEntityRepository.findAllList(pageable);
+        return boardEntityRepository.boardListAll(pageable);
     }
 
-    @Transactional
-    public Integer boardCount(){
-        return boardEntityRepository.boardCount();
+    @Transactional(readOnly = true)
+    public Page<BoardResponse>boardSearchList(Pageable pageable, SearchType searchType,String searchVal){
+        return boardEntityRepository.boardListSearch(pageable,searchType,searchVal);
     }
 
     @Transactional(readOnly = true)

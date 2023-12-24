@@ -3,6 +3,7 @@ package com.example.springboot_react_example.domain.dto;
 import com.example.springboot_react_example.domain.Const.UserRole;
 import com.example.springboot_react_example.domain.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class UserResponse {
     private LocalDateTime createdTime;
 
     @Builder
+    @QueryProjection
     public UserResponse(Member member){
         this.id = member.getId();
         this.userId = member.getUserId();

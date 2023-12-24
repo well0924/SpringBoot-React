@@ -2,16 +2,15 @@ package com.example.springboot_react_example.domain.dto;
 
 import com.example.springboot_react_example.domain.BoardEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.querydsl.core.annotations.QueryProjection;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class BoardResponse {
     private Long idx;
     private String title;
@@ -21,6 +20,7 @@ public class BoardResponse {
     private LocalDateTime createdAt;
 
     @Builder
+    @QueryProjection
     public BoardResponse(BoardEntity board){
         this.idx = board.getIdx();
         this.title  = board.getTitle();
