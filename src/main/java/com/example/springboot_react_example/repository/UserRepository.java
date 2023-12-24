@@ -16,4 +16,5 @@ public interface UserRepository extends JpaRepository<Member,Long> {
     Page<UserResponse> userList(Pageable pageable);
     Optional<Member> findByUserId(String userId);
     boolean existsByUseremail(String email);
+    boolean existsByUserId(String userId);
 }

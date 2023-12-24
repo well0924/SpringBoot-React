@@ -8,6 +8,7 @@ import com.example.springboot_react_example.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public Page<UserResponse> userList(Pageable pageable){
@@ -40,12 +42,18 @@ public class UserService {
 
     @Transactional
     public Long userCreate(UserRequest request){
-        //이메일 중복
-        duplicatedUserEmail(request.getUseremail());
+
+        if(duplicatedUserId(request.getUserId())==true){
+            throw new RuntimeException("회원 아이디가 중복됩니다.");
+        }
+        if(duplicatedUserEmail(request.getUseremail())==true){
+            throw new RuntimeException("회원 이메일이 중복됩니다.");
+        }
 
         Member member = Member
                 .builder()
                 .userId(request.getUserId())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .username(request.getUsername())
                 .useremail(request.getUseremail())
                 .userRole(UserRole.ROLE_USER)
@@ -78,7 +86,11 @@ public class UserService {
         userRepository.deleteById(detail.get().getId());
     }
 
-    public void duplicatedUserEmail(String userEmail){
-        userRepository.existsByUseremail(userEmail);
+    public boolean duplicatedUserEmail(String userEmail){
+        return userRepository.existsByUseremail(userEmail);
+    }
+
+    public boolean duplicatedUserId(String userId){
+        return userRepository.existsByUserId(userId);
     }
 }

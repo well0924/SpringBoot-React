@@ -61,4 +61,16 @@ public class UserController {
         userService.userDelete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @GetMapping("/id-check/{userId}")
+    public ResponseEntity<?>duplicatedUserId(@PathVariable("userId") String userId){
+        boolean result = userService.duplicatedUserId(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/email-check/{email}")
+    public ResponseEntity<?>duplicatedUserEmail(@PathVariable("email") String userEmail){
+        boolean result = userService.duplicatedUserEmail(userEmail);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }
