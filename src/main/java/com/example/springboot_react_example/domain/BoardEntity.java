@@ -9,6 +9,8 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "TB_BOARD")
@@ -29,6 +31,10 @@ public class BoardEntity {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Member member;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "board",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Comment>commentList = new ArrayList<>();
 
     @Builder
     public BoardEntity(String title, String contents, String createdBy, LocalDateTime createdAt, Member member){

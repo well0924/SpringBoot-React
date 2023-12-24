@@ -6,7 +6,6 @@ import com.example.springboot_react_example.domain.dto.BoardRequest;
 import com.example.springboot_react_example.domain.dto.BoardResponse;
 import com.example.springboot_react_example.service.BoardService;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
