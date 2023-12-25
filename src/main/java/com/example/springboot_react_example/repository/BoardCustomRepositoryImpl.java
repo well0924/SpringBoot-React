@@ -54,7 +54,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
             case AUTHOR -> boardResponseJPQLQuery.where(authorCt(searchVal));
             case TITLE -> boardResponseJPQLQuery.where(titleCt(searchVal));
             case CONTENTS -> boardResponseJPQLQuery.where(contentsCt(searchVal));
-            default -> boardResponseJPQLQuery.where(authorCt(searchVal).or(titleCt(searchVal).or(contentsCt(searchVal))));
+            case ALL-> boardResponseJPQLQuery.where(authorCt(searchVal).or(titleCt(searchVal).or(contentsCt(searchVal))));
         };
 
         return PageableExecutionUtils.getPage(middleQuery

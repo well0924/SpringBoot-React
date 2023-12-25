@@ -34,8 +34,14 @@ public class BoardController {
 
     //글 검색
     @GetMapping("/search")
-    public ResponseEntity<?>listSearch(@PageableDefault(size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable, SearchType searchType,@RequestParam(value = "value") String searchVal){
-        Page<BoardResponse>list = boardService.boardSearchList(pageable,searchType,searchVal);
+    public ResponseEntity<?>listSearch(
+            @PageableDefault(size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam("searchType") String searchType,
+            @RequestParam(value = "searchVal") String searchVal){
+        Page<BoardResponse>list =
+                boardService.boardSearchList(pageable,
+                        String.valueOf(SearchType.toSearch(searchType)),
+                        searchVal);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
