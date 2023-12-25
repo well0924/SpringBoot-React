@@ -30,6 +30,8 @@ public class QBoardEntity extends EntityPathBase<BoardEntity> {
 
     public final StringPath createdBy = createString("createdBy");
 
+    public final ListPath<FileEntity, QFileEntity> fileEntityList = this.<FileEntity, QFileEntity>createList("fileEntityList", FileEntity.class, QFileEntity.class, PathInits.DIRECT2);
+
     public final NumberPath<Long> idx = createNumber("idx", Long.class);
 
     public final QMember member;

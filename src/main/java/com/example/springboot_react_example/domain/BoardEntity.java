@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,14 +28,23 @@ public class BoardEntity {
     private String createdBy;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
+    //회원
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Member member;
 
+    //댓글
+    @BatchSize(size = 10)
     @ToString.Exclude
     @OneToMany(mappedBy = "board",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Comment>commentList = new ArrayList<>();
+
+    //파일
+    @BatchSize(size = 10)
+    @ToString.Exclude
+    @OneToMany(mappedBy = "board",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<FileEntity>fileEntityList = new ArrayList<>();
 
     @Builder
     public BoardEntity(String title, String contents, String createdBy, LocalDateTime createdAt, Member member){
@@ -44,7 +54,7 @@ public class BoardEntity {
         this.createdAt = createdAt;
         this.member = member;
     }
-
+    //게시글 수정
     public void boardUpdate(BoardRequest request){
         this.title = request.getTitle();
         this.contents = request.getContents();
