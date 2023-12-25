@@ -10,6 +10,8 @@ const Header = () => {
             <a href="/login">로그인</a>
             &nbsp;&nbsp;|&nbsp;&nbsp;
             <a href="/join">회원가입</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="/logout">로그아웃</a>
             <hr/>
         </header>
     );

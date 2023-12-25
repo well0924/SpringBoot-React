@@ -52,6 +52,7 @@ public class JwtProvider {
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .tokenExpiresIn(tokenExpiresIn.getTime())
+                .userId(username)
                 .build();
     }
 
