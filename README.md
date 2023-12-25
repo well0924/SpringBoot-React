@@ -60,17 +60,26 @@
 
   - Java 17
   - Spring boot 2.6.3
-  - Spring Security
-  - Query Dsl 
+  - Spring Security 3.0.4
+  - Spring Data Jpa 3.0.4
+  - Spring validation 3.0.4
+  - Query Dsl 5.0.0
+  - jwt 2.12.4
+  - MariaDB 3.0.5
 
 ### 🎨Frontend
 
   - React 18.2
+  - axious 1.6.2
+  - http-proxy-middleware 2.0,6
+  - react-router-dom 6.21.1
+  - react-js-pagination 3.0.3
 
 <h2>3.구현 화면</h2>
 
+<h2>4.소감</h2>
 
+### 1.아쉬운점
 
-<h2>4.회고</h2>
-
-- 리액트를 간단하게 배우기 위해서 
+  
+### 2.회고
