@@ -16,6 +16,8 @@ import org.springframework.data.support.PageableExecutionUtils;
 import javax.persistence.EntityManager;
 import java.util.function.Supplier;
 
+import static com.example.springboot_react_example.domain.Const.SearchType.*;
+
 public class BoardCustomRepositoryImpl implements BoardCustomRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
@@ -36,6 +38,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
         JPQLQuery<BoardResponse>boardResponseJPQLQuery = jpaQueryFactory
                 .select(Projections.constructor(BoardResponse.class,qBoardEntity))
                 .from(qBoardEntity)
+                .orderBy(qBoardEntity.idx.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset());
 
@@ -48,16 +51,24 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
 
         JPQLQuery<BoardResponse>boardResponseJPQLQuery = jpaQueryFactory
                 .select(Projections.constructor(BoardResponse.class,qBoardEntity))
-                .from(qBoardEntity);
+                .from(qBoardEntity)
+                .orderBy(qBoardEntity.idx.desc());
 
-        JPQLQuery<BoardResponse>middleQuery = switch (searchType){
-            case AUTHOR -> boardResponseJPQLQuery.where(authorCt(searchVal));
-            case TITLE -> boardResponseJPQLQuery.where(titleCt(searchVal));
-            case CONTENTS -> boardResponseJPQLQuery.where(contentsCt(searchVal));
-            case ALL-> boardResponseJPQLQuery.where(authorCt(searchVal).or(titleCt(searchVal).or(contentsCt(searchVal))));
+        JPQLQuery<BoardResponse>middleQuery;
+
+        switch (searchType){
+            case AUTHOR :
+               middleQuery = boardResponseJPQLQuery.where(authorCt(searchVal)); break;
+            case TITLE:
+               middleQuery =  boardResponseJPQLQuery.where(titleCt(searchVal)); break;
+            case CONTENTS:
+               middleQuery = boardResponseJPQLQuery.where(contentsCt(searchVal)); break;
+            default :
+                middleQuery = boardResponseJPQLQuery.where(authorCt(searchVal).or(titleCt(searchVal).or(contentsCt(searchVal))));
         };
 
-        return PageableExecutionUtils.getPage(middleQuery
+        return PageableExecutionUtils
+                .getPage(middleQuery
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch(),pageable,middleQuery::fetchCount);

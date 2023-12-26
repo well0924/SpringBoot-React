@@ -32,8 +32,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public Page<BoardResponse>boardSearchList(Pageable pageable, String searchType,String searchVal){
-        return boardEntityRepository.boardListSearch(pageable,SearchType.toSearch(searchType),searchVal);
+    public Page<BoardResponse>boardSearchList(Pageable pageable, SearchType searchType,String searchVal){
+        return boardEntityRepository.boardListSearch(pageable,searchType,searchVal);
     }
 
     @Transactional(readOnly = true)

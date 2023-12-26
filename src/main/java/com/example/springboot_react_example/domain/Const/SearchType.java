@@ -1,6 +1,7 @@
 package com.example.springboot_react_example.domain.Const;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
 public enum SearchType {
@@ -9,12 +10,4 @@ public enum SearchType {
     AUTHOR,
     ALL;
 
-    public static SearchType toSearch(String searchType){
-        return switch (searchType){
-            case "title"->TITLE;
-            case "created_by"->AUTHOR;
-            case "content"->CONTENTS;
-            default -> ALL;
-        };
-    }
 }

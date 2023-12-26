@@ -36,11 +36,10 @@ public class BoardController {
     @GetMapping("/search")
     public ResponseEntity<?>listSearch(
             @PageableDefault(size = 10,sort = "id",direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam("searchType") String searchType,
-            @RequestParam(value = "searchVal") String searchVal){
+            @RequestParam("searchType") SearchType searchType,
+            @RequestParam("searchVal") String searchVal){
         Page<BoardResponse>list =
-                boardService.boardSearchList(pageable,
-                        String.valueOf(SearchType.toSearch(searchType)),
+                boardService.boardSearchList(pageable,searchType,
                         searchVal);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
