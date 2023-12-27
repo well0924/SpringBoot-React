@@ -19,7 +19,6 @@ public class Member {
     private Long id;
     @Setter
     private String userId;
-
     @Setter
     private String password;
     @Setter

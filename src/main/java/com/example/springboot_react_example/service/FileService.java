@@ -7,9 +7,11 @@ import com.example.springboot_react_example.domain.dto.FileUploadDto;
 import com.example.springboot_react_example.repository.BoardEntityRepository;
 import com.example.springboot_react_example.repository.FileEntityRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -17,11 +19,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class FileService {
@@ -32,8 +36,10 @@ public class FileService {
     private String uploadFilePath;
 
     //파일 업로드
+    @Transactional
     public List<FileUploadDto>fileUpload(Long boardId, List<MultipartFile> multipartFiles)throws Exception{
         BoardEntity board = boardEntityRepository.findById(boardId).orElseThrow(()->new RuntimeException("게시글을 찾을 수 없습니다."));
+        log.info(board);
         List<FileEntity>files = new ArrayList<>();
 
         for(MultipartFile multipartFile : multipartFiles){
@@ -45,28 +51,31 @@ public class FileService {
             String storedFileName =
                     "FILE_" + board.getIdx() + "_" + randomId.concat(fileName.substring(fileName.indexOf(".")));
 
-            String fileResourcePath = uploadFilePath + File.separator + uploadFilePath;
-
+            String fileResourcePath = uploadFilePath + File.separator + storedFileName;
+            log.info(fileResourcePath);
             File f = new File(uploadFilePath);
-
+            log.info("???:"+f);
             if (!f.exists()) {
                 f.mkdir();
             }
 
             Files.copy(multipartFile.getInputStream(), Paths.get(fileResourcePath));
-
             FileEntity saveFile = FileEntity.builder()
                     .originFileName(multipartFile.getOriginalFilename())
+                    .storedFileName(storedFileName)
                     .filePath(uploadFilePath)
                     .fileType(multipartFile.getContentType())
+                    .createdAt(LocalDateTime.now())
                     .build();
-            saveFile.setMappingBoard(board);
 
+            saveFile.setMappingBoard(board);
+            log.info(saveFile);
             files.add(fileEntityRepository.save(saveFile));
         }
         List<FileUploadDto>dtos = files.stream().map(FileUploadDto::fromEntity).collect(Collectors.toList());
         return  dtos;
     }
+
     //파일 다운로드
     public FileDownloadDto download(Long fileId) throws IOException {
         FileEntity file = fileEntityRepository.findById(fileId).orElseThrow(

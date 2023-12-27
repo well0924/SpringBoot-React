@@ -34,6 +34,8 @@ public class QFileEntity extends EntityPathBase<FileEntity> {
 
     public final StringPath originFileName = createString("originFileName");
 
+    public final StringPath storedFileName = createString("storedFileName");
+
     public QFileEntity(String variable) {
         this(FileEntity.class, forVariable(variable), INITS);
     }

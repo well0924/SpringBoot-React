@@ -67,8 +67,10 @@ public class BoardService {
     public Long updateBoard(Long boardId,BoardRequest request,Member member){
 
         Optional<BoardEntity> board = boardEntityRepository.findById(boardId);
-
-        member = userRepository.findById(member.getId()).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName().toString();
+        log.info(username);
+        member = userRepository.findByUserId(username).get();
 
         BoardEntity result = board.get();
 
@@ -83,6 +85,7 @@ public class BoardService {
         return result.getIdx();
     }
 
+    @Transactional
     public void deleteBoard(Long boardId){
         boardEntityRepository.deleteById(boardId);
     }
