@@ -3,6 +3,7 @@ import {useState, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthProvider";
 import {HttpHeadersContext} from "../../Context/HttpHeaderProvider";
+import Button from "react-bootstrap/Button";
 
 function Login(){
 
@@ -52,28 +53,28 @@ function Login(){
     }
 
     return(
-        <div>
-            <table className="table">
-                <tbody>
-                <tr>
-                    <th className="col-3">아이디</th>
-                    <td>
-                        <input type="text" value={id} onChange={changeId} size="50px" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>비밀번호</th>
-                    <td>
-                        <input type="password" value={pwd} onChange={changePwd} size="50px" />
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <br/>
-
-            <div className="my-1 d-flex justify-content-center">
-                <button className="btn btn-outline-secondary" onClick={login}><i className="fas fa-sign-in-alt"></i> 로그인</button>
+        <div className="container">
+            <div className="row justify-content-md-center">
+                <div className="card">
+                    <div className="card-header">Login</div>
+                    <div className="card-body">
+                        <form>
+                            <div className="form-group">
+                                <label htmlFor="exampleInputEmail1">Id</label>
+                                <input type="input" className="form-control" aria-describedby="emailHelp"
+                                       autoFocus
+                                       value={id} onChange={changeId}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="exampleInputPassword1">Password</label>
+                                <input type="password" className="form-control" value={pwd}
+                                       onChange={changePwd}/>
+                            </div>
+                            <br/>
+                            <Button onClick={login} type={"button"}>Login</Button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     )
