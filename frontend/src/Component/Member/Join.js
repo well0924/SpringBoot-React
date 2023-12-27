@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 function Join(){
 
@@ -103,6 +103,7 @@ function Join(){
             });
     };
 
+    //로그인 페이지 이동
     const backToLogin = () =>{
         navigate("/login");
     };
