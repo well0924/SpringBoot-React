@@ -38,8 +38,8 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public BoardResponse getBoard(Long boardId){
-        BoardEntity entity = boardEntityRepository.findById(boardId).get();
-        return BoardResponse.builder().board(entity).build();
+        BoardResponse response = boardEntityRepository.boardDetail(boardId).get();
+        return response;
     }
 
     @Transactional

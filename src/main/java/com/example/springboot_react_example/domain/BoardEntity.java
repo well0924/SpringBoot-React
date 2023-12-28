@@ -35,15 +35,15 @@ public class BoardEntity {
     private Member member;
 
     //댓글
-    @BatchSize(size = 10)
+    @BatchSize(size = 100)
     @ToString.Exclude
     @OneToMany(mappedBy = "board",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<Comment>commentList = new ArrayList<>();
 
     //파일
-    @BatchSize(size = 10)
+    @BatchSize(size = 100)
     @ToString.Exclude
-    @OneToMany(mappedBy = "board",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "board",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<FileEntity>fileEntityList = new ArrayList<>();
 
     @Builder

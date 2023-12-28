@@ -64,7 +64,8 @@ public class BoardController {
     //글 수정
     @PutMapping("/{id}")
     @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
-    public ResponseEntity<?>updateBoard(@RequestBody BoardRequest request,@PathVariable("id")Long boardId,@AuthenticationPrincipal Member member){
+    public ResponseEntity<?>updateBoard(@RequestBody BoardRequest request,@PathVariable("id")Long boardId,
+                                        @AuthenticationPrincipal Member member){
         Long updateResult = boardService.updateBoard(boardId,request,member);
         return ResponseEntity.status(HttpStatus.OK).body(updateResult);
     }

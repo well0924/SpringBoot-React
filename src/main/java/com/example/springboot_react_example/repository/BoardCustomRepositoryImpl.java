@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import static com.example.springboot_react_example.domain.Const.SearchType.*;
@@ -72,6 +73,16 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch(),pageable,middleQuery::fetchCount);
+    }
+
+    //게시글 상세조회
+    @Override
+    public Optional<BoardResponse> boardDetail(Long boardId) {
+        return Optional.ofNullable(jpaQueryFactory
+                .select(Projections.constructor(BoardResponse.class,qBoardEntity))
+                .from(qBoardEntity)
+                .where(qBoardEntity.idx.eq(boardId))
+                .fetchOne());
     }
 
     //게시글 작성자기준
