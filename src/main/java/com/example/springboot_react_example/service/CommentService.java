@@ -9,10 +9,12 @@ import com.example.springboot_react_example.repository.BoardEntityRepository;
 import com.example.springboot_react_example.repository.CommentRepository;
 import com.example.springboot_react_example.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,11 +30,13 @@ public class CommentService {
         return commentRepository.commentList(boardId);
     }
 
-    public Long createComment(CommentRequest request, Long boardId, Member member){
+    @Transactional
+    public Long createComment(CommentRequest request, Long boardId){
 
         BoardEntity board = boardEntityRepository.findById(boardId).get();
-
-        Member writer = userRepository.findById(member.getId()).get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName().toString();
+        Member writer = userRepository.findByUserId(username).get();
 
         Comment comment = Comment
                 .builder()
@@ -40,6 +44,7 @@ public class CommentService {
                 .board(board)
                 .member(writer)
                 .createdBy(writer.getUserId())
+                .createdAt(LocalDateTime.now())
                 .build();
 
         commentRepository.save(comment);

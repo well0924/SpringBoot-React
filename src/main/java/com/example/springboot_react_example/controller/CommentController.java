@@ -26,8 +26,8 @@ public class CommentController {
     }
 
     @PostMapping("/create/{board-id}")
-    public ResponseEntity<?>commentCreate(@RequestBody CommentRequest request, @AuthenticationPrincipal Member member,@PathVariable("board-id")Long boardId){
-        Long result = commentService.createComment(request,boardId,member);
+    public ResponseEntity<?>commentCreate(@RequestBody CommentRequest request,@PathVariable("board-id")Long boardId){
+        Long result = commentService.createComment(request,boardId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

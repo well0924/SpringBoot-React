@@ -10,6 +10,5 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class CommentRequest {
-    private Long boardId;
     private String contents;
 }
