@@ -15,6 +15,7 @@ function App() {
           <Route path="/board" element={<BoardList/>}/>
           <Route path="/board/:idx" element={<BoardDetail/>}/>
           <Route path="/write" element={<BoardWrite />} />
+          <Route path="/update"></Route>
           <Route path="/join" element={<Join/>}></Route>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/logout" element={<Logout/>}></Route>

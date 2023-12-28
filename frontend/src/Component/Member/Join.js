@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 function Join(){
 
@@ -9,6 +10,7 @@ function Join(){
     const [name, setName] = useState("");
     const [pwd, setPwd] = useState("");
     const [checkPwd, setCheckPwd] = useState("");
+    const [passwordMatch, setPasswordMatch] = useState(true); // 비밀번호 일치 여부 추가
 
     const navigate = useNavigate();
 
@@ -29,6 +31,7 @@ function Join(){
 
     const changeCheckPwd = (event) => {
         setCheckPwd(event.target.value);
+        setPasswordMatch(pwd === event.target.value);
     }
 
     //회원 아이디 중복
@@ -80,6 +83,11 @@ function Join(){
 
     //회원 가입
     const memberJoin = async () =>{
+        if (!passwordMatch) {
+            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+            return;
+        }
+
         const req = {
             userId : userId,
             password : pwd,
@@ -109,55 +117,58 @@ function Join(){
     };
 
     return (
-        <div>
-            <table className="table">
-                <tbody>
-                <tr>
-                    <th className="col-2">아이디</th>
-                    <td>
-                        <input type="text" value={userId} onChange={changeUserId} size="50px" /> &nbsp; &nbsp;
-                        <button className="btn btn-outline-danger" onClick={duplicatedUserId}>
-                            <i className="fas fa-check"></i> 아이디 중복 확인</button>
-                    </td>
-                </tr>
+            <div className="container">
+                <div className="row justify-content-md-center">
+                    <div className="card">
+                        <div className="card-header">회원가입</div>
+                        <div className="card-body">
+                            <form>
+                                <div className="form-group">
+                                    <label htmlFor="exampleInputEmail1">Id</label>
+                                    <input type="input" className="form-control" aria-describedby="emailHelp"
+                                           autoFocus
+                                           value={userId} onChange={changeUserId}/>
+                                    <button className="btn btn-outline-danger" onClick={duplicatedUserId}>
+                                        <i className="fas fa-check"></i> 아이디 중복 확인
+                                    </button>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="exampleInputPassword1">이메일</label>
+                                    <input type="text" className="form-control" value={email}
+                                           onChange={changeEmail}/>
+                                    <button className="btn btn-outline-danger" onClick={duplicatedUserEmail}>
+                                        <i className="fas fa-check"></i> 이메일 중복 확인</button>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="exampleInputPassword1">이름</label>
+                                    <input type="text" className="form-control" value={name}
+                                           onChange={changeName}/>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="exampleInputPassword1">비밀번호</label>
+                                    <input type="text" className="form-control" value={pwd}
+                                           onChange={changePwd}/>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="exampleInputPassword1">비밀번호 확인</label>
+                                    <input type="text" className="form-control" value={checkPwd}
+                                           className={`form-control ${passwordMatch ? "" : "is-invalid"}`}
+                                           onChange={changeCheckPwd}/>
+                                    {!passwordMatch && (
+                                        <div className="invalid-feedback">비밀번호와 비밀번호 확인이 일치하지 않습니다.</div>
+                                    )}
+                                </div>
+                                <br/>
+                                <div className="my-3 d-flex justify-content-center">
+                                    <Button onClick={memberJoin} type={"button"} className="mr-2">회원가입</Button>
 
-                <tr>
-                    <th className="col-2">이메일</th>
-                    <td>
-                        <input type="text" value={email} onChange={changeEmail} size="50px" /> &nbsp; &nbsp;
-                        <button className="btn btn-outline-danger" onClick={duplicatedUserEmail}>
-                            <i className="fas fa-check"></i> 이메일 중복 확인</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>이름</th>
-                    <td>
-                        <input type="text" value={name} onChange={changeName} size="50px" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>비밀번호</th>
-                    <td>
-                        <input type="password" value={pwd} onChange={changePwd} size="50px" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>비밀번호 확인</th>
-                    <td>
-                        <input type="password" value={checkPwd} onChange={changeCheckPwd} size="50px" />
-                    </td>
-                </tr>
-                </tbody>
-            </table><br />
-
-            <div className="my-3 d-flex justify-content-center">
-                <button className="btn btn-outline-secondary" onClick={memberJoin}><i className="fas fa-user-plus"></i> 회원가입</button>
-                <button className="btn btn-outline-secondary" onClick={backToLogin}><i className="fas fa-user-plus"></i>취소</button>
+                                    <Button onClick={backToLogin} type={"button"}>취소</Button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
     );
 
 }
