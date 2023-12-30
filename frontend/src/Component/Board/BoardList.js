@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import Pagination from "react-js-pagination";
+import Button from 'react-bootstrap/Button';
 import axios from "axios";
+import Table from 'react-bootstrap/Table';
 import "../../Css/Page.css";
 
 const BoardList = () => {
@@ -11,14 +13,7 @@ const BoardList = () => {
 
     //검색
     const [searchType,setSearchType ]= useState("");
-    const [searchVal,setSearchVal ]= useState("");
-
-    const changeSearchType = (event) =>{
-        setSearchType(event.target.value);
-    }
-    const changeSearchValue = (event) =>{
-        setSearchVal(event.target.value);
-    }
+    const [searchValue,setSearchVal ]= useState("");
 
     //페이징
     const [page, setPage] = useState(1);
@@ -26,28 +21,14 @@ const BoardList = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [totalCnt, setTotalCnt] = useState(0);
 
-    //페이징 보여주기
-    const changePage = (page,pageSize,totalPages,totalCnt) => {
-        setPage(page);
-        setPageSize(pageSize);
-        setTotalPages(totalPages);
-        setTotalCnt(totalCnt);
-        getBoardList(page);
-    };
-
     //게시글 목록
     const getBoardList = async (page) => {
         try {
             const response = await axios.get("http://localhost:8082/api/board/list", {
                 params: {"page": page - 1},
             });
-
-            console.log("[BoardList.js] useEffect() success :D");
-            console.log(response.data);
             console.log(response.data.content);
-            console.log(response.data.totalPages);
-            console.log(response.data.pageable.pageSize);
-
+            console.log("[BoardList.js] useEffect() success :D");
             setBoardList(response.data.content);
             setPageSize(response.data.pageSize);
             setTotalPages(response.data.totalPages);
@@ -59,26 +40,41 @@ const BoardList = () => {
     };
 
     //게시글 검색
-    const search = async ()=>{
+    const search = async (page)=>{
         try{
             const response = await axios
                 .get("http://localhost:8082/api/board/search",{
                     params:{
-                        page : page-1,
-                        searchType : searchType,
-                        searchVal : searchVal
+                        "page" : page-1,
+                        "searchType" : searchType,
+                        "searchVal" : searchValue
                     }
-                }).then((resp)=>{
-                    console.log(resp.data);
-                    console.log("[BoardList.js] search success :D");
-                    setBoardList(resp.data.content);
-                    setPageSize(response.data.pageSize);
-                    setTotalCnt(response.data.totalElements);
                 });
+                    console.log(response.data);
+                    console.log("[BoardList.js] search success :D");
+                    setBoardList(response.data.content);
+                    setPageSize(response.data.pageSize);
+                    setTotalPages(response.data.totalPages);
+                    setTotalCnt(response.data.totalElements);
+
         }catch (err){
             console.log("[BoardList.js] search error :<");
             console.log(err);
         }
+    };
+
+    const changeSearchType = (event) =>{
+        setSearchType(event.target.value);
+    }
+    const changeSearchValue = (event) =>{
+        setSearchVal(event.target.value);
+    }
+
+    //페이징 보여주기
+    const changePage = (page) => {
+        setPage(page);
+        getBoardList(page).then(r => console.log("list"));
+        search(page).then(s=>console.log("searchList"));
     };
 
     //첫 로딩 시, 한 페이지만 가져옴
@@ -93,28 +89,56 @@ const BoardList = () => {
 
     return (
         <div>
+            <h2 className="text-center">Boards List</h2>
             {/*게시글 검색*/}
             <br />
-            <div>
+            <div className={"d-grid gap-2 d-md-flex justify-content-md-end"}>
                 <select name="searchType" onChange={changeSearchType}>
                     <option value="">-선택-</option>
-                    <option value="title">제목</option>
-                    <option value="content">내용</option>
-                    <option value="created_by">작성자</option>
+                    <option value="TITLE">제목</option>
+                    <option value="CONTENTS">내용</option>
+                    <option value="AUTHOR">작성자</option>
                 </select>
-                <input type="text" name="searchVal" value={searchVal} onChange={changeSearchValue} />
-                <button onClick={search}>검색</button>
+                <input type="text" name="searchVal" value={searchValue} onChange={changeSearchValue} />
+                <Button variant="primary" onClick={search}>검색</Button>
             </div>
             {/*게시글 목록*/}
-            <ul>
-                {boardList.map((board) => (
-                    // 4) map 함수로 데이터 출력
-                    <Link to={`/board/${board.idx}`} key={board.idx}>
-                        {board.title}
-                        <br/>
-                    </Link>
+            {boardList.length === 0 ? (
+                <Table>
+                    <tbody>
+                        <tr>
+                            <td colSpan="4" className="text-center">게시글이 없습니다.</td>
+                        </tr>
+                    </tbody>
+                </Table>
+            ) : (
+                <Table className={"responsive"}>
+                    <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">작성자</th>
+                            <th scope="col">작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {boardList.map((board) => (
+                        // 4) map 함수로 데이터 출력
+                        <tr key={board.idx}>
+                            <td>{board.idx}</td>
+                            <td>
+                                <Link to={`/board/${board.idx}`} key={board.idx}>
+                                {board.title}
+                                </Link>
+                            </td>
+                            <td>{board.createdBy}</td>
+                            <td>{board.createdAt}</td>
+                        </tr>
                 ))}
-            </ul>
+                    </tbody>
+                </Table>
+                )}
+            {/* 글 작성 */}
             <div>
                 <button className="btn btn-outline-secondary" onClick={moveToWrite}>글쓰기</button>
             </div>
