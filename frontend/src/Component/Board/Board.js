@@ -5,7 +5,7 @@ import { AuthContext } from "../../Context/AuthProvider";
 import {HttpHeadersContext} from "../../Context/HttpHeaderProvider";
 import FileDisplay from "../File/FileList";
 
-const Board = ({ idx, title, contents, createdBy,files,comment}) => {
+const Board = ({ idx, title, contents, createdBy,files}) => {
 
     const navigate = useNavigate();
 
@@ -84,6 +84,7 @@ const Board = ({ idx, title, contents, createdBy,files,comment}) => {
                     <th className="table-primary">파일</th>
                     <td>
                         {/*파일 목록 보여주는 곳*/}
+                        <FileDisplay files={files} boardId={idx}></FileDisplay>
                     </td>
                 </tr>
                 </tbody>
@@ -103,8 +104,7 @@ const Board = ({ idx, title, contents, createdBy,files,comment}) => {
                             <i className="fas fa-pen"></i> 게시글 삭제
                         </button>
                     </>
-                    :
-                    null}
+                    : null}
             </div>
         </div>
     );

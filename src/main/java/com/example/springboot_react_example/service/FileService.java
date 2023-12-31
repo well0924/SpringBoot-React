@@ -55,6 +55,10 @@ public class FileService {
             log.info(fileResourcePath);
             File f = new File(uploadFilePath);
             log.info("???:"+f);
+            //읽기,쓰기 권한
+            f.setWritable(true);
+            f.setReadable(true);
+
             if (!f.exists()) {
                 f.mkdir();
             }
@@ -81,11 +85,15 @@ public class FileService {
         FileEntity file = fileEntityRepository.findById(fileId).orElseThrow(
                 () -> new FileNotFoundException()
         );
-        String filePath = uploadFilePath + file.getFilePath();
+        log.info("fileDetail::"+file);
+        String filePath = file.getFilePath()+file.getStoredFileName();
+        log.info("download filePath :"+filePath);
         String contentType = determineContentType(file.getFileType());
+        log.info(contentType);
         byte[] content = Files.readAllBytes(new File(filePath).toPath());
         return FileDownloadDto.fromFileResource(file, contentType, content);
     }
+
     //파일 삭제
     public void delete(Long fileId) {
         FileEntity file = fileEntityRepository.findById(fileId).orElseThrow(() -> new RuntimeException("파일일 없습니다."));

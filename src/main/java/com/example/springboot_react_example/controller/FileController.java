@@ -33,11 +33,12 @@ public class FileController {
     }
 
     @GetMapping("/download/{id}")
-    public ResponseEntity<Resource>download(@PathVariable("id")Long fileId)throws Exception{
-        FileDownloadDto downloadDto = fileService.download(fileId);
+    public ResponseEntity<Resource>download(@PathVariable Long id)throws Exception{
+        FileDownloadDto downloadDto = fileService.download(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.parseMediaType(downloadDto.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=\"" + downloadDto.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; fileName=\"" + downloadDto.getFilename() + "\"")
                 .body(new ByteArrayResource(downloadDto.getContent()));
     }
 
