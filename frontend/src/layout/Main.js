@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Link } from "react-router-dom";
+import {AuthContext} from "../Context/AuthProvider";
+import {HttpHeadersContext} from "../Context/HttpHeaderProvider";
 
 const Main = () => {
+    const { auth, setAuth } = useContext(AuthContext);
+    const { headers, setHeaders } = useContext(HttpHeadersContext);
+
     return (
         <div className="container mt-5">
             <div className="jumbotron">
@@ -14,9 +19,11 @@ const Main = () => {
                 <p>
                     Ready to get started? Check out the latest posts or create your own.
                 </p>
-                <Link to="/board">
-                    <button className="btn btn-primary btn-lg">Go to Board List</button>
-                </Link>
+                {auth != null ?
+                    <Link to="/board">
+                        <button className="btn btn-primary btn-lg">Go to Board List</button>
+                    </Link> :
+                    null }
                 <br></br><br></br>
                 <div className="mt-4">
                     <h3>🖥️Source code on GitHub:</h3>
