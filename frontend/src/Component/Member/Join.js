@@ -1,10 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 
 function Join(){
-
     const [userId,setUserId] = useState("");
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
@@ -54,11 +52,12 @@ function Join(){
                 if (resp.status === 400) {
                     alert(resp.data);
                 }
-            });
+        });
+
     };
 
     //회원 이메일 중복처리.
-    const duplicatedUserEmail = async () =>{
+    const duplicatedUserEmail = async (event) =>{
         await axios.get(`http://localhost:8082/api/user/email-check/${email}`)
             .then((resp) =>{
                 console.log("[Join.js] duplicatedUserEmail() success :D");
@@ -66,9 +65,12 @@ function Join(){
 
                 if (resp.data === false) {
                     alert("사용 가능한 이메일입니다.");
+                    setEmail(email);
                 }else{
                     alert("이메일 중복!");
+                    setEmail(email);
                 }
+                event.preventDefault();
             })
             .catch((err) => {
                 console.log("[Join.js] duplicatedUserEmail() error :<");
@@ -82,7 +84,9 @@ function Join(){
     };
 
     //회원 가입
-    const memberJoin = async () =>{
+    const memberJoin = async (event) =>{
+        event.preventDefault();
+
         if (!passwordMatch) {
             alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
             return;
@@ -93,12 +97,14 @@ function Join(){
             password : pwd,
             username : name,
             useremail : email
-        }
+        };
+
         await axios.post(`http://localhost:8082/api/user/create`,req)
             .then((resp) => {
                 console.log("[Join.js] join() success :D");
                 console.log(resp.data);
                 //회원가입이 되면 메인 페이지로 이동
+                alert("회원가입이 되었습니다.");
                 navigate("/");
             }).catch((err) => {
                 console.log("[Join.js] join() error :<");
@@ -117,41 +123,37 @@ function Join(){
     };
 
     return (
+        <div>
             <div className="container">
                 <div className="row justify-content-md-center">
                     <div className="card">
                         <div className="card-header">회원가입</div>
                         <div className="card-body">
-                            <form>
-                                <div className="form-group">
-                                    <label htmlFor="exampleInputEmail1">Id</label>
-                                    <input type="input" className="form-control" aria-describedby="emailHelp"
-                                           autoFocus
-                                           value={userId} onChange={changeUserId}/>
+                                <label>Id</label>
+                                <div className="input-group mb-3">
+                                    <input type="text" className="form-control" value={userId} onChange={changeUserId}/>
                                     <button className="btn btn-outline-danger" onClick={duplicatedUserId}>
                                         <i className="fas fa-check"></i> 아이디 중복 확인
                                     </button>
                                 </div>
-                                <div className="form-group">
-                                    <label htmlFor="exampleInputPassword1">이메일</label>
-                                    <input type="text" className="form-control" value={email}
-                                           onChange={changeEmail}/>
+                                <label>이메일</label>
+                                <div className="input-group mb-3">
+                                    <input type="text" className="form-control" value={email} onChange={changeEmail}/>
                                     <button className="btn btn-outline-danger" onClick={duplicatedUserEmail}>
                                         <i className="fas fa-check"></i> 이메일 중복 확인</button>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="exampleInputPassword1">이름</label>
-                                    <input type="text" className="form-control" value={name}
-                                           onChange={changeName}/>
+                                    <label>이름</label>
+                                    <input type="text" className="form-control" value={name} onChange={changeName}/>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="exampleInputPassword1">비밀번호</label>
-                                    <input type="text" className="form-control" value={pwd}
+                                    <label>비밀번호</label>
+                                    <input type="new-password" className="form-control" value={pwd}
                                            onChange={changePwd}/>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="exampleInputPassword1">비밀번호 확인</label>
-                                    <input type="text" className="form-control" value={checkPwd}
+                                    <label>비밀번호 확인</label>
+                                    <input type="new-password" value={checkPwd}
                                            className={`form-control ${passwordMatch ? "" : "is-invalid"}`}
                                            onChange={changeCheckPwd}/>
                                     {!passwordMatch && (
@@ -160,15 +162,15 @@ function Join(){
                                 </div>
                                 <br/>
                                 <div className="my-3 d-flex justify-content-center">
-                                    <Button onClick={memberJoin} type={"button"} className="mr-2">회원가입</Button>
+                                    <button onClick={memberJoin} type={"button"} className="btn btn-outline-secondary">회원가입</button>
 
-                                    <Button onClick={backToLogin} type={"button"}>취소</Button>
+                                    <button onClick={backToLogin} type={"button"} className="btn btn-outline-secondary">취소</button>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     );
 
 }
