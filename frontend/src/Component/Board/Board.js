@@ -4,6 +4,8 @@ import axios from "axios";
 import { AuthContext } from "../../Context/AuthProvider";
 import {HttpHeadersContext} from "../../Context/HttpHeaderProvider";
 import FileDisplay from "../File/FileList";
+import CommentList from "../Comment/CommentList";
+import CommentWrite from "../Comment/CommentWrite";
 
 const Board = ({ idx, title, contents, createdBy,files}) => {
 
@@ -20,6 +22,7 @@ const Board = ({ idx, title, contents, createdBy,files}) => {
     const moveToBoardUpdate = () =>{
         navigate('/update');
     }
+
     //게시글 삭제
     const deleteBoard = async()=>{
         if(window.confirm("게시글을 삭제하겠습니까??")){
@@ -90,6 +93,15 @@ const Board = ({ idx, title, contents, createdBy,files}) => {
                 </tbody>
             </table>
 
+            {/* 댓글 리스트 컴포넌트 */}
+            <CommentList boardId={idx}/>
+            {/* 댓글 작성 컴포넌트 */}
+            {
+                (auth) ? // 로그인한 사용자만 댓글 작성 가능
+                    <CommentWrite boardId={idx}/>
+                    :
+                    null
+            }
             <div className="my-5 d-flex justify-content-center">
                 <button className="btn btn-outline-secondary" onClick={moveToBoardList}>
                     <i className="fas fa-pen"></i> 게시글 목록

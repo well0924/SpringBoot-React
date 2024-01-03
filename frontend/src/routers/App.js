@@ -11,11 +11,12 @@ import Logout from "../Component/Member/Logout";
 function App() {
   return (
       <Routes>
+          {/*게시글 관련*/}
           <Route path="/" element={<Main />} />
           <Route path="/board" element={<BoardList/>}/>
           <Route path="/board/:idx" element={<BoardDetail/>}/>
-          <Route path="/write" element={<BoardWrite />} />
-          <Route path="/update"></Route>
+          <Route path="/write" element={<BoardWrite />}/>
+          {/*회원 관련*/}
           <Route path="/join" element={<Join/>}></Route>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/logout" element={<Logout/>}></Route>
