@@ -2,6 +2,7 @@ import React , { useRef } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Comment from "./Comment.js"
+import "../../Css/CommentList.css"
 
 function CommentList(props){
     const boardId = props.boardId;

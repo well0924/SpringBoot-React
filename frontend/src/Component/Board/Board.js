@@ -60,6 +60,7 @@ const Board = ({ idx, title, contents, createdBy,files}) => {
     }, []);
 
     return (
+        <>
         <div>
             <table className="table">
                 <tbody>
@@ -92,16 +93,6 @@ const Board = ({ idx, title, contents, createdBy,files}) => {
                 </tr>
                 </tbody>
             </table>
-
-            {/* 댓글 리스트 컴포넌트 */}
-            <CommentList boardId={idx}/>
-            {/* 댓글 작성 컴포넌트 */}
-            {
-                (auth) ? // 로그인한 사용자만 댓글 작성 가능
-                    <CommentWrite boardId={idx}/>
-                    :
-                    null
-            }
             <div className="my-5 d-flex justify-content-center">
                 <button className="btn btn-outline-secondary" onClick={moveToBoardList}>
                     <i className="fas fa-pen"></i> 게시글 목록
@@ -118,7 +109,17 @@ const Board = ({ idx, title, contents, createdBy,files}) => {
                     </>
                     : null}
             </div>
+            {/* 댓글 작성 컴포넌트 */}
+            {
+                (auth) ? // 로그인한 사용자만 댓글 작성 가능
+                    <CommentWrite boardId={idx}/>
+                    :
+                    null
+            }
+            {/* 댓글 리스트 컴포넌트 */}
+            <CommentList boardId={idx}/>
         </div>
+        </>
     );
 };
 
