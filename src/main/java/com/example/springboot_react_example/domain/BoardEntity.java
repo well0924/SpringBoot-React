@@ -30,14 +30,14 @@ public class BoardEntity {
     private LocalDateTime createdAt;
     //회원
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_idx", referencedColumnName = "id")
     private Member member;
 
     //댓글
     @BatchSize(size = 100)
     @ToString.Exclude
-    @OneToMany(mappedBy = "board",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,orphanRemoval = true)
+    @OneToMany(mappedBy = "board",fetch = FetchType.EAGER,orphanRemoval = true)
     private List<Comment>commentList = new ArrayList<>();
 
     //파일
