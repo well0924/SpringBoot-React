@@ -80,7 +80,7 @@ const Board = ({ idx, title, contents, createdBy,files}) => {
                 <tr>
                     <th className="table-primary">내용</th>
                     <td>
-                        <textarea className="form-control" rows="10" defaultValue={contents} readOnly></textarea>
+                        <textarea className="form-control" rows="5" defaultValue={contents} readOnly></textarea>
                     </td>
                 </tr>
 
@@ -100,7 +100,7 @@ const Board = ({ idx, title, contents, createdBy,files}) => {
                 {/*회원의 아이디가 일치하면 수정과 삭제를 할 수 있음.*/}
                 {(auth === createdBy)?
                     <>
-                        <button className="btn btn-outline-secondary" onClick={moveToBoardList}>
+                        <button className="btn btn-outline-secondary" onClick={moveToBoardUpdate}>
                             <i className="fas fa-pen"></i> 게시글 수정
                         </button>
                         <button className="btn btn-outline-secondary" onClick={deleteBoard}>

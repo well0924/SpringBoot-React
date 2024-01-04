@@ -21,11 +21,11 @@ public class Comment {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
     @ToString.Exclude
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "board_id",nullable = false,referencedColumnName = "board_id")
     private BoardEntity board;
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_idx", referencedColumnName = "id")
     private Member member;
 

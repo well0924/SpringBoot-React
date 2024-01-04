@@ -148,12 +148,12 @@ function Join(){
                                 </div>
                                 <div className="form-group">
                                     <label>비밀번호</label>
-                                    <input type="new-password" className="form-control" value={pwd}
+                                    <input type="password" className="form-control" value={pwd}
                                            onChange={changePwd}/>
                                 </div>
                                 <div className="form-group">
                                     <label>비밀번호 확인</label>
-                                    <input type="new-password" value={checkPwd}
+                                    <input type="password" value={checkPwd}
                                            className={`form-control ${passwordMatch ? "" : "is-invalid"}`}
                                            onChange={changeCheckPwd}/>
                                     {!passwordMatch && (

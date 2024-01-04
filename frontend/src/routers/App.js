@@ -7,6 +7,7 @@ import Main from "../layout/Main";
 import React from "react";
 import Login from "../Component/Member/Login";
 import Logout from "../Component/Member/Logout";
+import BoardUpdate from "../Component/Board/BoardUpdate";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/board" element={<BoardList/>}/>
           <Route path="/board/:idx" element={<BoardDetail/>}/>
           <Route path="/write" element={<BoardWrite />}/>
+          <Route path="/update"element={<BoardUpdate/>}></Route>
           {/*회원 관련*/}
           <Route path="/join" element={<Join/>}></Route>
           <Route path="/login" element={<Login/>}></Route>
