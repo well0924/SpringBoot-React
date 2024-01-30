@@ -119,7 +119,7 @@
 
 ![게시글 삭제](https://github.com/well0924/SpringBoot-React/assets/89343159/424cbb67-36d5-4bb2-8ff9-56ada18bab57)
 
-![게시글 수정]()
+![ReactApp-Chrome2024-01-3023-49-59-ezgif com-video-to-gif-converter](https://github.com/well0924/jpapractice/assets/89343159/2aae6583-79c4-4e46-90a5-970d432e2c23)
 
 ### 댓글 작성 & 삭제
 
@@ -135,3 +135,5 @@
 
 
 - 짧은 기간동안 간단한 게시판을 만들다 보니 백엔드 부분에서 jwt로그인에서 refreshToken을 작성하지 않았고 재발급을 하지 않은 기능을 만들지 못한점이 아쉬웠다.
+
+- 리액트에 대한 기본적인 기능을 구현할 수 있는 기회였고 좀더 공부를 해서 Redux나 ReactQuery에 대해서도 공부를 해야겠다.

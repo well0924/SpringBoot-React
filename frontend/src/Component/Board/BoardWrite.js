@@ -74,7 +74,7 @@ const BoardWrite = () => {
 
     //게시글 저장
     const saveBoard = async () => {
-        await axios.post(`//localhost:8082/api/board/create`, board,{headers : headers})
+        await axios.post(`http://localhost:8082/api/board/create`, board,{headers : headers})
             .then((res) => {
             console.log("[BoardWrite.js] createBbs() success :D");
             console.log(res.data);

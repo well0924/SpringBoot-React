@@ -1,6 +1,6 @@
 #어드민 전용 pw:41419
 INSERT into tb_user(id, user_id,password ,useremail, username,user_role,created_time)
-values (1,'well4149','$2a$12$kbXLEdFVu.icZGMmcxj5q.y2pj.z4gR9T4LAg1WyO1A4GkGBsKXXC','well414965@gmail.com','well1','ROLE_ADMIN',now());
+values (1,'well4149','$2a$12$lg8IA/Kup8Dm95p1Wcndle5FKVMCP25snnNR4cj4yl6cE81GnfqtC','well414965@gmail.com','well1','ROLE_ADMIN',now());
 #회원 전용 pw:1234
 INSERT into tb_user(id, user_id,password ,useremail, username,user_role,created_time)
 values (2,'well124','$2a$12$1KbR0tzDJxJOu1fHobYuou3s25N5jhS/7ZkCjKOhaU4aSs1GfZtZ6','well4149@naver.com','well2','ROLE_USER',now());

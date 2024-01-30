@@ -64,25 +64,22 @@ public class BoardService {
     }
 
     @Transactional
-    public Long updateBoard(Long boardId,BoardRequest request,Member member){
+    public Long updateBoard(Long boardId,BoardRequest request){
 
         Optional<BoardEntity> board = boardEntityRepository.findById(boardId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName().toString();
         log.info(username);
-        member = userRepository.findByUserId(username).get();
-
-        BoardEntity result = board.get();
-
-        if(!result.getCreatedBy().equals(member.getUserId())){
+        if(!board.get().getCreatedBy().equals(username)){
             throw new RuntimeException("작성자가 일치하지 않습니다.");
         }
+        System.out.println(request.getContents());
+        System.out.println(request.getTitle());
+        if(board.isPresent()){
+            boardEntityRepository.updatedBoard(boardId, request.getTitle(), request.getContents());
+        }
 
-        result.boardUpdate(request);
-
-        boardEntityRepository.save(result);
-
-        return result.getIdx();
+        return boardId;
     }
 
     @Transactional

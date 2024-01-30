@@ -18,9 +18,15 @@ const Board = ({ idx, title, contents, createdBy,files}) => {
     const moveToBoardList = () =>{
         navigate('/board');
     }
-    //게시글 수정 화면 이동
+    //게시글 수정 화면 이동 -> useLocation을 사용하기 위해서 데이터 전달
     const moveToBoardUpdate = () =>{
-        navigate('/update');
+        navigate('/update',{state:{
+            idx: idx,
+            title : title,
+            contents : contents,
+            createdBy : createdBy,
+            files :files
+        }});
     }
 
     //게시글 삭제
@@ -44,7 +50,6 @@ const Board = ({ idx, title, contents, createdBy,files}) => {
         }
     }
     //게시글 수정
-
     useEffect(() => {
         // 컴포넌트가 렌더링될 때마다 localStorage의 토큰 값으로 headers를 업데이트
         setHeaders({
